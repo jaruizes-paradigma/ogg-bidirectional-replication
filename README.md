@@ -905,7 +905,36 @@ info rcdcora
 
 <br/><br/>
 
-## Configurando las secuencias 
+### Probando el proceso de replicación
+
+#### Ejecutando la carga inicial
+
+Para lanzar el proceso, lo tenemos que hacer desde el origen, es decir, desde GoldenGate Classic. Para ello, nos conectamos a la máquina EC2 donde está instalado GoldenGate Classic, y accedemos a GGSCI. Una vez dentro, arrancamos el extract de carga inicial:
+
+```bash
+start einiload
+```
+
+Si todo ha ido bien, tendremos los datos en las tablas de los esquemas de particulares y empresas de Postgresql.
+
+<br>
+
+#### Modificando una fila
+
+Ahora vamos a modificar dos filas, una correspondiente a un particular y otra correspondiente a una empresa, para verificar que las modificaciones se propagan a Postgresql, cada una a la tabla correspondiente. Para ello lanzamos las siguientes sentencias SQL sobre la base de datos Oracle:
+
+```sql
+UPDATE CUSTOMERS SET EMAIL='emailmod@email.com' WHERE ID IN (1,6);
+COMMIT;
+```
+
+Si vamos a Postgresql veremos que el cambio de email se ha realizado para el cliente particular (esquema particulares) con ID=1 y para el cliente empresa (esquema empresas) con ID=6
+
+<br/><br/>
+
+## Implementando el proceso de CDC de Oracle a Postgresql
+
+### Configurando las secuencias 
 
 ### Oracle
 
