@@ -683,7 +683,7 @@ Como se ha comentado anteriormente, en la carga inicial, el replicat no es un pr
 
 <br/><br/>
 
-## Implementando el proceso de CDC
+## Implementando el proceso de CDC de Oracle a Postgresql
 
 ### Creando el extract (en GG Classic)
 
