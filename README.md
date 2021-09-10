@@ -8,7 +8,7 @@ Para poder ejecutar este ejemplo necesitas;
 - Docker
 - Credenciales de consola de un usuario de AWS con permiso para manejar EC2, RDS Oracle, MSK, VPC, Security Groups
 
-<br/>
+<br/><br/>
 
 ## Creando la infraestructura base
 
@@ -22,7 +22,7 @@ En este caso de ejemplo, como queremos facilitar la conexión a los diferentes e
 
 A continuación vamos a detallar los pasos a seguir
 
-
+<br/>
 
 #### Generando la clave SSH
 
@@ -36,7 +36,7 @@ ssh-keygen -q -N "" -f iac/ssh/ssh_gg
 
 Dentro del directorio “iac/ssh” se crearán dos ficheros correspondientes a las claves pública y privada.
 
-
+<br/>
 
 #### Creando la infraestructura con Terraform
 
@@ -125,7 +125,7 @@ INSERT INTO CUSTOMERS (CIF, EMAIL, TELEFONO, RAZONSOCIAL, TIPO) VALUES ('J734223
 COMMIT;
 ```
 
-
+<br/>
 
 ### Creando el modelo de datos destino
 
@@ -215,7 +215,7 @@ exec rdsadmin.rdsadmin_util.alter_supplemental_logging('ADD','PRIMARY KEY');
 
 > **ATENCIÓN:** El script está preparado para ser lanzado en una base de datos AWS RDS Oracle, que es la que utilizamos en este ejemplo. De ahí las sentencias del tipo “exec rdsadmin.“
 
-
+<br/>
 
 ### Preparando la base de datos Postgresql
 
@@ -316,7 +316,7 @@ Cuando el proceso de instalación finalice, creamos la siguiente variable de ent
 export LD_LIBRARY_PATH=/home/ec2-user/oracle_instant_client_19c
 ```
 
-
+<br/>
 
 ### Configurando el acceso a base de datos
 
@@ -346,7 +346,7 @@ Por último, hay que definir la variable de entorno TNS_ADMIN:
 export TNS_ADMIN=/home/ec2-user/tnsnames
 ```
 
-
+<br/>
 
 ### Creando la estructura inicial de directorios para GoldenGate Classic
 
@@ -365,7 +365,7 @@ CREATE SUBDIRS
 
 Como resultado se generarán todos los directorios que Oracle GoldenGate necesita.
 
-
+<br/>
 
 ### Creando el almacén de credenciales
 
@@ -383,7 +383,7 @@ Después, añadimos los datos referentes a la conexión que hemos definido anter
 alter credentialstore add user oggadm1@ORARDS, password oggadm1, alias orards 
 ```
 
-
+<br/>
 
 ### Abriendo los puertos del firewall
 
@@ -395,7 +395,7 @@ sudo firewall-cmd --permanent --add-port=1000-61000/tcp
 sudo firewall-cmd --reload
 ```
 
-
+<br/>
 
 ### Inicializando el componente Manager
 
@@ -427,7 +427,7 @@ info mgr
 
 y verificamos que está en estado RUNNING
 
-
+<br/>
 
 ### Comprobando la instalación
 
@@ -453,7 +453,7 @@ Similar a la instalación de Oracle GoldenGate Classic, es necesario descargar l
 
 - **Distribución de Oracle GoldenGate Postgresql**, a partir del siguiente [enlace](https://download.oracle.com/otn/goldengate/19100/19100200714_ggs_Linux_x64_PostgreSQL_64bit.zip)
 
-
+<br/>
 
 ### Instalación de GoldenGate Postgresql en EC2
 
@@ -484,7 +484,7 @@ CREATE SUBDIRS
 
 El resultado del comando generará todos los directorios necesarios
 
-
+<br/>
 
 ### Abriendo los puertos del firewall
 
@@ -534,7 +534,7 @@ También tenemos que definir la variable de entorno ODBCINI. Para ello, lanzamos
 export ODBCINI=/home/ec2-user/gg-postgresql/odbc.ini
 ```
 
-
+<br/>
 
 ### Inicializando el Manager
 
@@ -580,7 +580,7 @@ cd /home/ec2-user/ggc
 ./ggsci
 ```
 
-
+<br/>
 
 ### Creando el fichero de parámetros
 
@@ -610,7 +610,7 @@ En este fichero de parámetros, estamos estableciendo que:
 - va a enviar los datos a un host remoto (máquina de GG Postgresql)
 - en el host remoto, se debe ejecutar una tarea remota de replicación, llamada “riniload”se van a seleccionar los datos de la tabla “CUSTOMERS” del esquema “ORACLEDB”
 
-
+<br/>
 
 ### Creando el extract
 
@@ -630,7 +630,7 @@ Una vez hemos definido el fichero de parámetros, tenemos que crear realmente el
    add extract einiload, sourceistable
    ```
 
-   
+<br/>
 
 ### Creando el replicat en GG Postgresql
 
@@ -677,9 +677,9 @@ En este fichero estamos diciendo que
 6. hacemos el mapeo de que los datos que llegan de Oracle con el valor de la columna TIPO a 1, se mandan a la tabla CUSTOMERS del esquema PARTICULARES, en Postgresql
 7. hacemos el mapeo de que los datos que llegan de Oracle con el valor de la columna TIPO a 2, se mandan a la tabla CUSTOMERS del esquema EMPRESAS, en Postgresql
 
+<br/>
 
-
-### Creando el replicat
+### Añadiendo el replicat
 
 El siguiente paso consiste en la creación del replicat asociado al fichero de parámetros. Para ello, en GGSCI, escribimos:
 
@@ -699,6 +699,8 @@ Como se ha comentado anteriormente, en la carga inicial, el replicat no es un pr
 ### Creando el extract (en GG Classic)
 
 Nos conectamos de a la máquina EC2 de GoldenGate Classic y entramos en GGSCI
+
+
 
 #### Creando el fichero de parámetros
 
@@ -726,7 +728,7 @@ En este fichero de parámetros, estamos diciendo a GoldenGate que:
 3. se asocia a los ficheros locales de “trail” con prefijo “lt”
 4. va a procesar los cambios correspondientes a la tabla CUSTOMERS del esquema “oracledb”
 
-
+<br/>
 
 #### Creando el extract
 
@@ -784,7 +786,7 @@ info ecdcora
 
 Obteniendo un resultado similar al de la imagen:
 
-![img](/Users/jaruiz/Dev/Paradigma/goldengate-posts/ogg-single-replication/readme/img/extract_up_running.png)
+![img](readme/img/extract_up_running.png)
 
 <br/>
 
@@ -853,10 +855,6 @@ Y verificamos que se ha arrancado bien mediante el siguiente comando:
 info pcdcora 
 ```
 
-obteniendo un resultado similar al siguiente:
-
-![img](/Users/jaruiz/Dev/Paradigma/goldengate-posts/ogg-single-replication/readme/img/datapump_up_running.png)
-
 <br/>
 
 ### Creando el Replicat (en GG Postgresql)
@@ -879,6 +877,8 @@ targetdb pg96db, userid oggadm1, password oggadm1
 map oracledb.customers, target particulares.customers, where (tipo = 1);
 map oracledb.customers, target empresas.customers, where (tipo = 2);
 ```
+
+<br/>
 
 En ese fichero, estamos diciendo:
 
@@ -951,7 +951,7 @@ Si vamos a Postgresql veremos que el cambio de email se ha realizado para el cli
 
 Lanzamos la siguiente secuencia indicando que la secuencia siempre se incremente en dos unidades:
 
-```
+```sql
 ALTER SEQUENCE CUSTOMERS_SEQ INCREMENT BY 2;
 ```
 
@@ -961,7 +961,7 @@ ALTER SEQUENCE CUSTOMERS_SEQ INCREMENT BY 2;
 
 Desde el cliente de Postgresql, lanzamos:
 
-```
+```sql
 SELECT setval('empresas.customers_id_seq', (SELECT (max(id) + 1) from empresas.customers));
 ALTER SEQUENCE empresas.customers_id_seq INCREMENT BY 2;
 ALTER TABLE PARTICULARES.CUSTOMERS ALTER COLUMN ID SET DEFAULT nextval('empresas.customers_id_seq');
@@ -1029,6 +1029,8 @@ En este fichero estamos diciendo:
 3. va a utilizar el punto de chequeo
 4. en el “trail” local va a incluir los cambios correspondientes a la tablas CUSTOMERS de los esquemas “particulares” y “empresas”
 
+<br/>
+
 Una vez hemos definido el fichero de parámetros, tenemos que crear el extract. Dentro de GGSCI, lo primero es hacer login:
 
 ```
@@ -1060,7 +1062,7 @@ start ecdcpsql
 info ecdcpsql
 ```
 
-
+<br/>
 
 #### Creando el data pump (GoldenGate for Postgresql)
 
@@ -1182,7 +1184,7 @@ start rcdcpsql
 info rcdcpsql
 ```
 
-
+<br/><br/>
 
 ### Probando el proceso de replicación bidireccional
 
