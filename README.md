@@ -698,7 +698,7 @@ Como se ha comentado anteriormente, en la carga inicial, el replicat no es un pr
 
 ### Creando el extract (en GG Classic)
 
-Nos conectamos de a la máquina EC2 de GoldenGate Classic y entramos en GGSCI
+Nos conectamos de nuevo a la máquina EC2 de GoldenGate Classic y entramos en GGSCI
 
 
 
@@ -943,7 +943,7 @@ Si vamos a Postgresql veremos que el cambio de email se ha realizado para el cli
 
 <br/><br/>
 
-## Implementando el proceso de CDC de Oracle a Postgresql
+## Implementando el proceso de CDC de Postgresql a Oracle
 
 ### Configurando las secuencias 
 
@@ -1131,9 +1131,9 @@ info pcdcpsql
 
 <br/>
 
-#### Creando el Replicat (GoldenGate for Postgresql)
+#### Creando el Replicat (GoldenGate Classic)
 
-Como siempre, lo primero es definir el fichero de parámetros. Para ello, lanzamos el siguiente comando:
+Accedemos a GGSCI de GoldenGate Classic y, como siempre, lo primero es definir el fichero de parámetros. Para ello, lanzamos el siguiente comando:
 
 ```
 edit params rcdcpsql
@@ -1207,7 +1207,7 @@ Veremos que las nuevas filas se replican en Oracle, en la tabla customers.
 Ahora vamos a comprobar que la replicación en el sentido inicial, sigue funcionando y que no se produce un problema con las secuencias o un bucle de replicación. Para ello, sobre Oracle, lanzamos:
 
 ```sql
-INSERT INTO CUSTOMERS (NIF, EMAIL, TELEFONO, NOMBRE, TIPO) VALUES ('987654TBD'', 'nuevodesdeoracle@gmail.com', '222222222', 'Nuevo desde Oracle', '1');
+INSERT INTO CUSTOMERS (NIF, EMAIL, TELEFONO, NOMBRE, TIPO) VALUES ('987654TBD', 'nuevodesdeoracle@gmail.com', '222222222', 'Nuevo desde Oracle', '1');
 COMMIT;
 ```
 
